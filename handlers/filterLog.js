@@ -30,14 +30,9 @@ async function processFile(filePath, text, outputFilePath, operation) {
 }
 
 // Example usage
-const filePath = './log/mock.log'; // Replace with your actual file path
-const text = ["PUBLISH","debug","mqtt-explorer"];
-const outputFilePath = './output/filtered_log.log'; // Replace with desired output file name
-const operation = ['filter','remove']; // Choose 'filter' or 'remove'
+
 
 // processFile(filePath, text[1], outputFilePath, operation[1]);
-processFile(filePath,text[0],outputFilePath,operation[0]);
-processFile(filePath,text[2],outputFilePath,operation[1]);
 
-
+exports.processFile = processFile;
 
