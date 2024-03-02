@@ -20,7 +20,11 @@ async function processFile(filePath, text, outputFilePath, operation) {
     if (operation === 'filter') {
       filteredLines = grep(lines, text);
     } else if (operation === 'remove') {
-      filteredLines = lines.filter(line => !line.includes(text)); // Filter again to remove lines with text
+      filteredLines = lines.filter(line => {
+        if ((!line.includes('info') && text == 'Received') || (text == 'Received' && line.includes('Received') && line.includes('debug')) || (text != 'Received')){
+          return !line.includes(text);
+        }
+        return line.includes(text)}); // Filter again to remove lines with text
     } else {
       throw new Error('Invalid operation. Choose "filter" or "remove".');
     }
@@ -32,10 +36,4 @@ async function processFile(filePath, text, outputFilePath, operation) {
   }
 }
 
-// Example usage
-
-
-// processFile(filePath, text[1], outputFilePath, operation[1]);
-
 exports.processFile = processFile;
-
