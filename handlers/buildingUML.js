@@ -1,6 +1,6 @@
 const fs = require("fs");
 var plantuml = require('plantuml');
-
+const { exec } = require("child_process");
 function generatePlantUML(inputFilePath, outputFilePath) {
   // Read the log file
   fs.readFile(inputFilePath, "utf8", async (err, data) => {
@@ -58,7 +58,7 @@ function generatePlantUML(inputFilePath, outputFilePath) {
     });
     const svg = await plantuml(plantUMLScript);
     fs.writeFileSync("./output/sq.svg", svg);
-    console.log('Diagram generated Successfully');
+    exec(`open ${'./output/sq.svg'}`);
   });
 
 }
