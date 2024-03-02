@@ -35,7 +35,14 @@ function generatePlantUML(inputFilePath, outputFilePath) {
       }
       if (line.includes("Sending PUBLISH to")) {
         subscriber = data.target;
-        const message = ` ${publisher} --> ${subscriber} : ${autoNumber++} ${data.topic} \\nEvent: ${event}\n`;
+        let message;
+        if((data.topic.includes('tb/requests') || data.topic.includes('intervention/requests') || data.topic.includes('scoui/requests')) 
+          && event === 'changeState' 
+          && (subscriber.includes('core'))){
+             message = ` ${publisher} --> ${subscriber} : ${autoNumber++} ${data.topic} \\nEvent: ${event}\n`;
+      }else{
+         message = ` ${publisher} -> ${subscriber} : ${autoNumber++} ${data.topic} \\nEvent: ${event}\n`;
+      }
         plantUMLScript += message;
       }
     });
