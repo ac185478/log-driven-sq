@@ -13,14 +13,13 @@ function generatePlantUML(inputFilePath, outputFilePath) {
     const lines = data.split("\n");
 
     // Initialize PlantUML script
-    let plantUMLScript = `@startuml\n\ntitle Message Sequence\n\n`;
-
+    let plantUMLScript = `@startuml\nautonumber\n\ntitle NextGenSCO JARVIS - log sequence\n\n`;
+    
     // Object to store participants (publishers and subscribers)
     let publisher = null;
     let subscriber = null;
     let payload = null;
     let participants = [];
-    let autoNumber = 1;
     let event = null;
     // Iterate over each line in the log
     lines.forEach((line) => {
@@ -39,9 +38,9 @@ function generatePlantUML(inputFilePath, outputFilePath) {
         if((data.topic.includes('tb/requests') || data.topic.includes('intervention/requests') || data.topic.includes('scoui/requests')) 
           && event === 'changeState' 
           && (subscriber.includes('core'))){
-             message = ` ${publisher} --> ${subscriber} : ${autoNumber++} ${data.topic} \\nEvent: ${event}\n`;
+             message = ` ${publisher} --> ${subscriber} : ${data.topic} \\nEvent: ${event}\n`;
       }else{
-         message = ` ${publisher} -> ${subscriber} : ${autoNumber++} ${data.topic} \\nEvent: ${event}\n`;
+         message = ` ${publisher} -> ${subscriber} : ${data.topic} \\nEvent: ${event}\n`;
       }
         plantUMLScript += message;
       }
