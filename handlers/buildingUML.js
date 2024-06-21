@@ -67,12 +67,12 @@ function parseLogLine(line) {
   // This example assumes specific keywords and delimiters
   const data = {};
 
-  if (!line.includes('<')){
-    line = line.replace(/\\"/g,'"');
-    line = line.replace('"{"','{"');
-    line = line.replace('}"}', '}}');
-    line = line.replace('"{}', '"{}"')
-  }
+  // if (!line.includes('<')){
+  //   line = line.replace(/\\"/g,'"');
+  //   line = line.replace('"{"','{"');
+  //   line = line.replace('}"}', '}}');
+  //   line = line.replace('"{}', '"{}"')
+  // }
   const logData = JSON.parse(line);
   data.level = logData.level;
     if (data.level == "info") {
@@ -88,7 +88,12 @@ function parseLogLine(line) {
       else if(logData.value === "(null)"){
         data.event = '(null)';
       }else{
+        if(logData.value.name !== undefined)
         data.event = logData.value.name;
+      else if(logData.value !== 'Operation Complete' && !logData.value.includes('getMediaIDs') && !logData.value.includes('getStrings')){
+          let qq = JSON.parse(logData.value);
+          data.event = qq.event;
+      }
       }
     } else if (data.level == "debug" && line.includes("Sending PUBLISH to")) {
       const [, , , target, , , , , topic] = logData.message.trim().split(/\s+/);
